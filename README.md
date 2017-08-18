@@ -1,4 +1,4 @@
-# wireshark-for-iOS
+# Wireshark-for-iOS
 
 Cross-compilation of wireshark for iOS
 
