@@ -241,6 +241,7 @@ common_filetime_to_nstime(nstime_t *nstime, guint64 ftsecs, int nsecs)
      * fit in a 64-bit signed value.
      */
     secs = (gint64)ftsecs - TIME_FIXUP_CONSTANT;
+    //secs = (long)((gint64)ftsecs - TIME_FIXUP_CONSTANT);
 
     if (!(TIME_T_MIN <= secs && secs <= TIME_T_MAX)) {
         /* The result won't fit in a time_t */

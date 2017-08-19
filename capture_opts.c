@@ -31,7 +31,7 @@
 
 #include <errno.h>
 
-#include <glib.h>
+#include "glib.h"
 
 #include "capture_opts.h"
 #include "ringbuffer.h"

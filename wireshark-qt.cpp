@@ -19,9 +19,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <config.h>
+#include "config.h"
 
-#include <glib.h>
+#include "glib.h"
 
 #ifdef Q_OS_UNIX
 #include <signal.h>

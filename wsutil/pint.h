@@ -138,6 +138,7 @@
                     }
 
 static inline void phton64(guint8 *p, guint64 v) {
+//static inline void phton64(guint8 *p, unsigned long long  v) {
     p[0] = (guint8)(v >> 56);
     p[1] = (guint8)(v >> 48);
     p[2] = (guint8)(v >> 40);

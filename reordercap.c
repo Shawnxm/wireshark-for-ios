@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <glib.h>
+#include "glib.h"
 
 #ifdef HAVE_GETOPT_H
 #include <getopt.h>
