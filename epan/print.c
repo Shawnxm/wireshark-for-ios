@@ -308,44 +308,65 @@ static gboolean check_protocolfilter(gchar **protocolfilter, const char *str)
     return res;
 }
 
+// void
+// write_pdml_proto_tree(output_fields_t* fields, gchar **protocolfilter, pf_flags protocolfilter_flags, epan_dissect_t *edt, FILE *fh, gboolean use_color)
+// {
+//     write_pdml_data data;
+//     const color_filter_t *cfp;
+
+//     g_assert(edt);
+//     g_assert(fh);
+
+//     cfp = edt->pi.fd->color_filter;
+
+//     /* Create the output */
+//     if (use_color && (cfp != NULL)) {
+//         fprintf(fh, "<packet foreground='#%02x%02x%02x' background='#%02x%02x%02x'>\n",
+//             cfp->fg_color.red, cfp->fg_color.green, cfp->fg_color.blue,
+//             cfp->bg_color.red, cfp->bg_color.green, cfp->bg_color.blue);
+//     }
+//     else {
+//         fprintf(fh, "<packet>\n");
+//     }
+
+//     /* Print a "geninfo" protocol as required by PDML */
+//     print_pdml_geninfo(edt, fh);
+
+//     if (fields == NULL || fields->fields == NULL) {
+//         /* Write out all fields */
+//         data.level    = 0;
+//         data.fh       = fh;
+//         data.src_list = edt->pi.data_src;
+//         data.filter   = protocolfilter;
+//         data.filter_flags   = protocolfilter_flags;
+
+//         proto_tree_children_foreach(edt->tree, proto_tree_write_node_pdml,
+//                                     &data);
+//     } else {
+//         /* Write out specified fields */
+//         write_specified_fields(FORMAT_XML, fields, edt, NULL, fh);
+//     }
+
+//     fprintf(fh, "</packet>\n\n");
+// }
 void
-write_pdml_proto_tree(output_fields_t* fields, gchar **protocolfilter, pf_flags protocolfilter_flags, epan_dissect_t *edt, FILE *fh, gboolean use_color)
+write_pdml_proto_tree(epan_dissect_t *edt, FILE *fh)
 {
     write_pdml_data data;
-    const color_filter_t *cfp;
-
-    g_assert(edt);
-    g_assert(fh);
-
-    cfp = edt->pi.fd->color_filter;
 
     /* Create the output */
-    if (use_color && (cfp != NULL)) {
-        fprintf(fh, "<packet foreground='#%02x%02x%02x' background='#%02x%02x%02x'>\n",
-            cfp->fg_color.red, cfp->fg_color.green, cfp->fg_color.blue,
-            cfp->bg_color.red, cfp->bg_color.green, cfp->bg_color.blue);
-    }
-    else {
-        fprintf(fh, "<packet>\n");
-    }
+    data.level    = 0;
+    data.fh       = fh;
+    data.src_list = edt->pi.data_src;
+    data.edt      = edt;
+
+    fprintf(fh, "<packet>\n");
 
     /* Print a "geninfo" protocol as required by PDML */
-    print_pdml_geninfo(edt, fh);
+    print_pdml_geninfo(edt->tree, fh);
 
-    if (fields == NULL || fields->fields == NULL) {
-        /* Write out all fields */
-        data.level    = 0;
-        data.fh       = fh;
-        data.src_list = edt->pi.data_src;
-        data.filter   = protocolfilter;
-        data.filter_flags   = protocolfilter_flags;
-
-        proto_tree_children_foreach(edt->tree, proto_tree_write_node_pdml,
-                                    &data);
-    } else {
-        /* Write out specified fields */
-        write_specified_fields(FORMAT_XML, fields, edt, NULL, fh);
-    }
+    proto_tree_children_foreach(edt->tree, proto_tree_write_node_pdml,
+                                &data);
 
     fprintf(fh, "</packet>\n\n");
 }

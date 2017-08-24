@@ -84,7 +84,8 @@ typedef struct dissector_table *dissector_table_t;
  *	we need more data (e.g., from subsequent TCP segments) to
  *	dissect the entire PDU.
  */
-typedef int (*dissector_t)(tvbuff_t *, packet_info *, proto_tree *, void *);
+//typedef int (*dissector_t)(tvbuff_t *, packet_info *, proto_tree *, void *);
+typedef void (*dissector_t)(tvbuff_t *, packet_info *, proto_tree *);
 
 /** Type of a heuristic dissector, used in heur_dissector_add().
  *
